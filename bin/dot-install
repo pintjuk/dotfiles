@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    MSYS_NT*)   machine=Git;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+echo ${machine}
+
+# if machine is Mac install using brow
+if [[ "$machine" == "Linux" ]]; then
+    type stow || brew install stow
+    type tmux || brew install tmux
+    type zsh || brew install zsh
+fi
+
+stow -d ~/dotfiles/ -t ~/.local/bin -R bin
