@@ -19,3 +19,7 @@ if [[ "$machine" == "Linux" ]]; then
 fi
 
 stow -d ~/dotfiles/ -t ~/.local/bin -R bin
+stow -d ~/dotfiles/ -t ~/.config/nvim -R nvim
+_stow -d ~/dotfiles/ -t ~ -R tmux
+_stow -d ~/dotfiles/ -t ~ -R zsh
+_stow -d ~/dotfiles/ -t ~ -R git

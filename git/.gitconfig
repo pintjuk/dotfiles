@@ -1,0 +1,32 @@
+[cola]
+	spellcheck = true
+[user]
+	name = Daniil Pintjuk
+	email = daniil@pintjuk.com
+[pull]
+	rebase = true
+[core]
+	autocrlf = input
+	pager = delta
+	editor = nvim
+	excludesfile = /Users/daniil/.gitignore_global
+[safe]
+[push]
+	autoSetupRemote = True
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = true      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    line-numbers = true
+    side-by-side = true
+	
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+[color]
+	ui = true
