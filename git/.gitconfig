@@ -9,7 +9,7 @@
 	autocrlf = input
 	pager = delta
 	editor = nvim
-	excludesfile = /Users/daniil/.gitignore_global
+	excludesFile = ~/.gitignore_global
 [safe]
 [push]
 	autoSetupRemote = True
