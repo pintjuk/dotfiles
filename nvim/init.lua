@@ -153,12 +153,6 @@ require('lazy').setup({
       end,
     },
   },
-
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-  },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
