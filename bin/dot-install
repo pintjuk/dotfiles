@@ -16,6 +16,9 @@ if [[ "$machine" == "Linux" ]]; then
     type stow || brew install stow
     type tmux || brew install tmux
     type zsh || brew install zsh
+	type fzf || brew install fzf
+	type fd  || brew install fd
+	type ripgrep || brew install ripgrep
 fi
 
 stow -d ~/dotfiles/ -t ~/.local/bin -R bin
