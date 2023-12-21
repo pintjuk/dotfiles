@@ -1,0 +1,28 @@
+#!/bin/bash
+if [ -z "${DEPLOYMENT_REPO}" ]; then
+    echo "DEPLOYMENT_PATH is unset or set to the empty string"
+	exit
+fi
+
+if [ -z "${DEPLOYMENT_PATH}" ]; then
+    echo "DEPLOYMENT_PATH is unset or set to the empty string"
+	exit
+fi
+gcloud config set project ingrid-head
+gcloud container clusters get-credentials stage-v2 --zone europe-west1-b
+export DOCKER_TAG=`ciapp docker-build --allow-dirty | grep -oE 'eu\.gcr\.io/[^[:space:]]+'`
+docker push $DOCKER_TAG  &
+echo "updating  $DEPLOYMENT_PATH to image $DOCKER_TAG"
+yq eval --inplace '.spec.template.spec.containers[0].image = env(DOCKER_TAG)' $DEPLOYMENT_PATH
+cd $DEPLOYMENT_REPO
+git --no-pager diff ${DEPLOYMENT_PATH}
+cd -
+
+read -p "Are you want to deploy this? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    kubectl apply -f ${DEPLOYMENT_PATH}
+    kubectl apply -f ${DEPLOYMENT_PATH}
+	kubectl get pods -l app=${SERVICE_NAME} --watch
+fi
