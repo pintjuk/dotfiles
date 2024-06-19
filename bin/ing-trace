@@ -1,0 +1,10 @@
+#!/bin/bash
+while true
+do
+	selected=`curl -s https://europe-west1-ingrid-head.cloudfunctions.net/payload-from-sql-to-gcs?trace_id=$1 | jq .payloads[] | fzf` || break
+
+	selectedUrl=`echo $selected | sed  's/^"https:\/\/storage\.cloud\.google\.com\/\(.*\)"$/\1/'`
+
+	echo $selectedUrl
+	gsutil cat gs://$selectedUrl | jq -C | less -R
+done
