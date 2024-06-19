@@ -1,0 +1,6 @@
+#!/bin/bash
+watching file $1
+nodemon \
+	--watch $1  \
+	--config ~/dotfiles/bin/nodmon.clear.json \
+	--signal SIGTERM --exec 'mdless' $1
