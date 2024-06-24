@@ -1,0 +1,12 @@
+#!/bin/bash
+selectedUrl=$1
+
+selectedUrl=`echo $1 | sed  's/^"https:\/\/storage\.cloud\.google\.com\/\(.*\)"$/\1/'`
+
+[ ! -e /tmp/payload-$selectedUrl ] && gsutil cp gs://$selectedUrl /tmp/payload-$selectedUrl
+cat /tmp/payload-$selectedUrl | jq -C 2>/dev/null 1>  /tmp/payload-$selectedUrl-jq \
+	&& cat /tmp/payload-$selectedUrl-jq \
+	|| xmllint --format /tmp/payload-$selectedUrl  | source-highlight -s xml -f esc   \
+		|| cat /tmp/payload-$selectedUrl  
+
+
