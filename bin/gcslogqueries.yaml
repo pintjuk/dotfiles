@@ -1,0 +1,20 @@
+queries:
+  - name: "ups cleand up"
+    query: |
+      resource.type="k8s_container"
+      resource.labels.cluster_name="production-v2"
+      resource.labels.container_name="carrier-ups"
+      NOT "crash recover: runtime error: index out of range [0] with length 0."
+      NOT "Failed to publish error to sentry: raven: got http status 429 - x-sentry-error: "
+      NOT "Failed to find default"
+      NOT "None delivery status found"
+      NOT "Missing or invalid ship to address line"
+      severity=ERROR
+
+  - name: "pnl book pickup"
+    query: |
+      resource.type="k8s_container"
+      resource.labels.cluster_name="production-v2"
+      resource.labels.namespace_name="default"
+      resource.labels.container_name="carrier-pnl"
+      jsonPayload.method="/ingrid.service.carrier.Carrier/BookPickup"

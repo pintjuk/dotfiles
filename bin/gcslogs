@@ -1,0 +1,25 @@
+#!/bin/bash
+trap "exit" INT TERM ERR
+trap 'rm ~/temp$$' EXIT;
+
+cat gcslogqueries.yaml | yq -o json | jq ".queries[] | [.name, .query] | @tsv"|  sed 's/^"\(.*\)\\t\(.*\)"$/\1\t\2/' | sed 's/\\\\/\\/g' | fzf -d '\t' --with-nth=1  --preview="print {2}" > ~/temp$$ 
+
+printf "`cat ~/temp$$  | sed 's/^\(.*\)\t\(.*\)/\2/'`" > ~/temp$$
+
+cat ~/temp$$
+read -p "[e]dit, [r]un or [q]uit: " edit
+
+if [ "$edit" == "e" ]
+then
+	$EDITOR ~/temp$$ >/dev/tty 		
+fi
+
+
+
+
+
+query=`tr '\n' ',' < ~/temp$$ | sed 's/,/ AND /g' | sed 's/ AND $//'`
+echo $query
+
+gcloud logging read "$query" --limit=10 --format=json| jq | $PAGER
+
