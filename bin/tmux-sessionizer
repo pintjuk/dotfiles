@@ -3,7 +3,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#656d76,bg:#ffffff,hl:#fff
 if [[ $# -eq 1 ]] || [[ $# -eq 2 ]]; then
     selected=$1
 else
-    selected=`{find ~/Code -mindepth 1 -maxdepth 2 -type d; echo ~/dump-stage} | fzf`
+    selected=`{find ~/dotfiles -mindepth 1 -maxdepth 1 -type d;find ~/Code -mindepth 1 -maxdepth 2 -type d; echo ~/dump-stage} | fzf`
 fi
 
 if [[ -z $selected ]]; then
