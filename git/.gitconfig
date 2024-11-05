@@ -2,7 +2,7 @@
 	spellcheck = true
 [user]
 	name = Daniil Pintjuk
-	email = daniil@pintjuk.com
+	email = daniil.pintjuk@ingrid.com
 [pull]
 	rebase = true
 [core]
@@ -30,3 +30,12 @@
     colorMoved = default
 [color]
 	ui = true
+
+; [url "ssh://git@github.com/"]
+; 	insteadOf = https://github.com/
+	insteadOf = https://github.com/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

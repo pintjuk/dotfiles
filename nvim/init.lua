@@ -86,3 +86,20 @@ vim.o.termguicolors = true
 
 -- Python
 require("snippets")
+
+-- reload files
+local suffixes = { "*.log", "*.txt", '*.gox'}
+
+-- Set up the autocommand to check for changes when focus is gained or the buffer is entered
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
+    pattern = suffixes,
+    command = "checktime"
+})
+
+vim.api.nvim_create_autocmd("BufRead", {
+    pattern = "*_gen.go",
+    callback = function()
+        vim.bo.readonly = true
+    end
+})
+
