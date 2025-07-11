@@ -1,0 +1,3 @@
+#!/bin/bash
+SSH_ASKPASS=/Users/daniil-ing/.ssh/ask_pass ssh-add ~/.ssh/id_ed25519
+

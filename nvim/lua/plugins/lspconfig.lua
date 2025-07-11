@@ -43,7 +43,7 @@ return {
 
 			-- See `:help K` for why this keymap
 			nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-			nmap('<C-?>', vim.sp.buf.signature_help, 'Signature Documentation')
+			nmap('<C-?>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
 			-- Lesser used LSP functionality
 			nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -69,18 +69,35 @@ return {
 		--  define the property 'filetypes' to the map in question.
 		local servers = {
 			-- clangd = {},
-			-- gopls = {},
+			gopls = {
+				-- diagnostics = {
+				-- 	deprecated = false, -- Disable deprecated warnings
+				-- 	unusedparams = false, -- Disable unused parameter warnings
+				-- 	staticcheck = false, -- Disable staticcheck warnings
+				-- 	unusedvariable = false, -- Disable unused variable warnings
+				-- 	unusedimport = false, -- Disable unused import warnings
+				-- 	unreachable = false, -- Disable unreachable code warnings
+				-- 	nilness = false,    -- Disable nil pointer warnings
+				-- 	shadow = false,     -- Disable variable shadowing warnings
+				-- 	structtag = false,  -- Disable struct tag warnings
+				-- 	gopls = false,      -- Disable gopls internal diagnostics
+				-- 	goimports = false,  -- Disable Go imports-related warnings
+				-- },
+			},
 			-- pyright = {},
 			-- rust_analyzer = {},
 			-- tsserver = {},
 			-- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
 			lua_ls = {
 				Lua = {
 					workspace = { checkThirdParty = false },
 					telemetry = { enable = false },
 				},
 			},
+			ts_ls = {}, -- TypeScript/JavaScript
+			cssls = {}, -- CSS/SCSS
+			eslint = {}, -- ESLint
+			jsonls = {}, -- JSON
 		}
 		-- Setup neovim lua configuration
 		require('neodev').setup()
@@ -106,8 +123,15 @@ return {
 			ensure_installed = vim.tbl_keys(servers),
 		}
 
+
+
 		mason_lspconfig.setup_handlers {
 			function(server_name)
+				-- Skip JDTLS since it's handled by nvim-jdtls
+				if server_name == "jdtls" then
+					return
+				end
+
 				require('lspconfig')[server_name].setup {
 					capabilities = capabilities,
 					on_attach = on_attach,

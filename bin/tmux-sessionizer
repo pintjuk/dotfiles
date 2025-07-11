@@ -3,7 +3,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#656d76,bg:#ffffff,hl:#fff
 if [[ $# -eq 1 ]] || [[ $# -eq 2 ]]; then
     selected=$1
 else
-    selected=`{find ~/dotfiles -mindepth 1 -maxdepth 1 -type d;find ~/Code -mindepth 1 -maxdepth 2 -type d; echo ~/dump-stage} | fzf`
+    selected=`{find ~/.dotfiles -mindepth 1 -maxdepth 1 -type d;find ~/Code -mindepth 1 -maxdepth 3 -type d; echo ~/Notes} | fzf`
 fi
 
 if [[ -z $selected ]]; then
@@ -13,13 +13,27 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
+
+init_session() {
+  case "$1" in
+    "Notes")
+
+		tmux send-keys -t $selected_name 'nvim .' C-m
+      ;;
+    *)
+      ;;
+  esac
+}
+
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
+	init_session $selected_name
     exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
+	init_session $selected_name
 fi
 
 tmux switch-client -t $selected_name

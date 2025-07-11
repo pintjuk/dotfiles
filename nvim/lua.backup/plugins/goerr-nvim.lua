@@ -1,0 +1,3 @@
+return {
+    'Snyssfx/goerr-nvim',
+}
