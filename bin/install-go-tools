@@ -1,0 +1,28 @@
+#!/bin/bash
+tools=(
+  "github.com/abice/go-enum"
+  "github.com/cweill/gotests/gotests"
+  "github.com/davidrjenni/reftools/cmd/fillswitch"
+  "github.com/db-journey/journey/v2"
+  "github.com/fatih/gomodifytags"
+  "github.com/go-delve/delve/cmd/dlv"
+  "github.com/godoctor/godoctor/cmd/impl"
+  "github.com/golang/mock/mockgen"
+  "github.com/golangci/golangci-lint/cmd/golangci-lint"
+  "github.com/kyoh86/richgo"
+  "github.com/onsi/ginkgo/ginkgo"
+  "github.com/tmc/json-to-struct"
+  "golang.org/x/tools/cmd/callgraph"
+  "golang.org/x/tools/cmd/deadcode@latest"
+  "golang.org/x/tools/cmd/goimports"
+  "golang.org/x/tools/cmd/gonew"
+  "golang.org/x/tools/cmd/gopls"
+  "golang.org/x/vuln/cmd/govulncheck"
+  "google.golang.org/protobuf/cmd/protoc-gen-go"
+  "gotest.tools/gotestsum"
+  "mvdan.cc/gofumpt"
+)
+
+for tool in "${tools[@]}"; do
+  go install "$tool@latest"
+done

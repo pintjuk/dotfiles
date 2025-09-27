@@ -1,0 +1,8 @@
+#!/bin/bash
+misspelled=$(aspell list --lang=en < "$1")
+if [ -n "$misspelled" ]; then
+    echo "Commit message contains misspelled words:"
+    echo "$misspelled"
+    echo "Please fix them before committing."
+    exit 1
+fi

@@ -13,16 +13,11 @@ echo ${machine}
 
 # if machine is Mac install using brow
 if [[ "$machine" == "Linux" ]]; then
-    type stow || brew install stow
-    type tmux || brew install tmux
-    type zsh || brew install zsh
-	type fzf || brew install fzf
-	type fd  || brew install fd
-	type ripgrep || brew install ripgrep
+	brew install stow tmux zsh fzf fd ripgrep git-delta jsonlint mysql psql  jq yq
 fi
 
-stow -d ~/dotfiles/ -t ~/.local/bin -R bin
-stow -d ~/dotfiles/ -t ~/.config/nvim -R nvim
-_stow -d ~/dotfiles/ -t ~ -R tmux
-_stow -d ~/dotfiles/ -t ~ -R zsh
-_stow -d ~/dotfiles/ -t ~ -R git
+stow -d ~/.dotfiles/ -t ~/.local/bin -R bin
+stow -d ~/.dotfiles/ -t ~/.config/nvim -R nvim
+_stow -d ~/.dotfiles/ -t ~ -R tmux
+_stow -d ~/.dotfiles/ -t ~ -R zsh
+_stow -d ~/.dotfiles/ -t ~ -R git

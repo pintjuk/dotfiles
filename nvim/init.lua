@@ -1,24 +1,3 @@
---[[
-
-
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.htmlH1
-
-  
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-]]
-   --
-
 -- System metadata 
 _G.is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 _G.is_wsl = vim.fn.has("wsl") == 1
@@ -29,9 +8,22 @@ print("is_wsl:", is_wsl)
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.spell = true
+
+vim.o.shell = '/bin/sh'
+vim.o.shellcmdflag = '-c'
+
+-- folds 
+vim.o.foldlevelstart = 99
+-- vim.o.foldmethod = "syntax"
+-- vim.cmd('syntax on')
+
+vim.o.foldmethod = 'expr'
+vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+
 
 -- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -49,9 +41,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
+
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -59,7 +49,6 @@ vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
 vim.wo.relativenumber = false
-
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
@@ -92,10 +81,10 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 
-
--- Python
-require("snippets")
-
+--
+-- -- Python
+-- require("snippets")
+--
 -- reload files
 local suffixes = { "*.log", "*.txt", '*.gox'}
 
@@ -111,4 +100,3 @@ vim.api.nvim_create_autocmd("BufRead", {
         vim.bo.readonly = true
     end
 })
-

@@ -12,6 +12,7 @@ return {
 		-- Adds a number of user-friendly snippets
 		'rafamadriz/friendly-snippets',
 		'hrsh7th/cmp-path',
+		'kristijanhusak/vim-dadbod-completion',
 	},
 	config = function()
 		-- [[ Configure nvim-cmp ]]
@@ -58,6 +59,7 @@ return {
 			},
 			sources = {
 				{ name = 'nvim_lsp' },
+				{ name = 'path' },
 				{ name = 'luasnip' },
 				{
 					name = 'path',
@@ -67,5 +69,12 @@ return {
 				},
 			},
 		}
+
+		cmp.setup.filetype({"sql"}, {
+			sources ={
+				{name= "vim-dadbod-completion"},
+				{name= "buffer"},
+			}
+		})
 	end
 }

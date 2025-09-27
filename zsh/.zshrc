@@ -117,20 +117,4 @@ export VAGRANT_USE_VAGRANT_TRIGGERS=1
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/daniil/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/daniil/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/daniil/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/daniil/google-cloud-sdk/completion.zsh.inc'; fi
-
-
-alias vim="nvim"
-alias python="python3"
-
-export PYPI_AUTH=`gcloud secrets versions access --secret=boeing-pypi latest --project=a-boeingfda-builds`
-export PIP_EXTRA_INDEX_URL=$PYPI_AUTH@europe-python.pkg.dev/a-boeingfda-builds/pypi/simple/
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completionEX

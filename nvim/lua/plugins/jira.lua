@@ -1,0 +1,85 @@
+return {
+    "nvim-lua/plenary.nvim", -- Needed for HTTP requests
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function()
+    --     local curl = require("plenary.curl")
+    --     local json = require("cjson")  -- Changed to cjson
+    --     local pickers = require("telescope.pickers")
+    --     local finders = require("telescope.finders")
+    --     local conf = require("telescope.config").values
+    --     local actions = require("telescope.actions")
+    --     local action_state = require("telescope.actions.state")
+    --
+    --     local JIRA_DOMAIN = "https://your-domain.atlassian.net"
+    --     local JIRA_EMAIL = "your-email@example.com"
+    --     local JIRA_API_TOKEN = "your-api-token"
+    --
+    --     local function fetch_jira_issues()
+    --         local url = JIRA_DOMAIN .. "/rest/api/3/search"
+    --         local jql_query = "assignee=currentUser() AND status!=Done ORDER BY updated DESC"
+    --
+    --         local response = curl.get(url, {
+    --             auth = JIRA_EMAIL .. ":" .. JIRA_API_TOKEN,
+    --             headers = {
+    --                 ["Accept"] = "application/json",
+    --                 ["Content-Type"] = "application/json"
+    --             },
+    --             query = {
+    --                 jql = jql_query,
+    --                 maxResults = 20,
+    --                 fields = "summary,key"
+    --             }
+    --         })
+    --
+    --         if response.status ~= 200 then
+    --             print("Error fetching Jira issues: " .. response.status)
+    --             return {}
+    --         end
+    --
+    --         local data = json.decode(response.body)  -- No changes here, decode remains the same
+    --         local issues = {}
+    --
+    --         for _, issue in ipairs(data.issues) do
+    --             table.insert(issues, { key = issue.key, summary = issue.fields.summary })
+    --         end
+    --
+    --         return issues
+    --     end
+    --
+    --     local function open_jira_picker()
+    --         local issues = fetch_jira_issues()
+    --
+    --         if #issues == 0 then
+    --             print("No Jira issues found")
+    --             return
+    --         end
+    --
+    --         pickers.new({}, {
+    --             prompt_title = "Jira Issues",
+    --             finder = finders.new_table({
+    --                 results = issues,
+    --                 entry_maker = function(entry)
+    --                     return {
+    --                         value = entry,
+    --                         display = entry.key .. " - " .. entry.summary,
+    --                         ordinal = entry.key .. " " .. entry.summary
+    --                     }
+    --                 end
+    --             }),
+    --             sorter = conf.generic_sorter({}),
+    --             attach_mappings = function(prompt_bufnr, map)
+    --                 map("i", "<CR>", function()
+    --                     local selection = action_state.get_selected_entry()
+    --                     actions.close(prompt_bufnr)
+    --                     local issue_url = JIRA_DOMAIN .. "/browse/" .. selection.value.key
+    --                     os.execute("xdg-open " .. issue_url .. " &") -- Linux
+    --                 end)
+    --                 return true
+    --             end
+    --         }):find()
+    --     end
+    --
+    --     -- Create Neovim command
+    --     vim.api.nvim_create_user_command("JiraIssues", open_jira_picker, {})
+    end
+}
