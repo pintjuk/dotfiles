@@ -18,6 +18,15 @@ I have left several `:help X` comments throughout the init.lua
 You should run that command and read that help section for more information.
 ]]
    --
+
+-- System metadata 
+_G.is_windows = vim.loop.os_uname().sysname == "Windows_NT"
+_G.is_wsl = vim.fn.has("wsl") == 1
+_G.is_windows_native = _G.is_windows and not _G.is_wsl
+
+print("is_windows:", is_windows)
+print("is_wsl:", is_wsl)
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.tabstop = 4
