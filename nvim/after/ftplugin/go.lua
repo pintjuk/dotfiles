@@ -5,6 +5,18 @@
 -- 	desc = '[T]est [D]ebug',
 -- }) n
 
+-- lsp stuff
+local shared = require("lsp.shared")
+
+require('neodev').setup()
+
+vim.lsp.config("gopls", {
+  capabilities = shared.capabilities,
+  on_attach = shared.on_attach,
+	settings = {},
+})
+
+vim.lsp.enable("gopls")
 
 function UncommentBlockComment()
   local ts_utils = require('nvim-treesitter.ts_utils')

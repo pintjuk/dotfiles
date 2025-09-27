@@ -12,8 +12,6 @@ return {
 			default_merge_method = "squash"
 		})
 
-
-
 		vim.api.nvim_create_autocmd("BufRead", {
 			pattern = "octo://*",
 			callback = function()

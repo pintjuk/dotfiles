@@ -1,3 +1,10 @@
+local home = os.getenv("HOME")
+local config_lua = home .. "/.config/nvim/lua/?.lua;" .. home .. "/.config/nvim/lua/?/init.lua;"
+
+if not string.find(package.path, config_lua, 1, true) then
+  package.path = config_lua .. package.path
+end
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.tabstop = 4
@@ -32,6 +39,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
+
+
+--
 
 
 

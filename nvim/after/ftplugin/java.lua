@@ -2,6 +2,7 @@ vim.opt_local.expandtab = true
 vim.opt_local.tabstop = 4
 vim.opt_local.shiftwidth = 4
 
+local shared = require("lsp.shared")
 
 local jdtls = require('jdtls')
 
@@ -141,30 +142,16 @@ local config = {
 		},
 	},
 
-	capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    capabilities = shared.capabilities,
+    on_attach = function (client, bufnr)
+		-- pcall(vim.keymap.del, 'n', 'grr', { buffer = 0 })
+		-- pcall(vim.keymap.del, 'n', 'gra', { buffer = 0 })
+		-- pcall(vim.keymap.del, 'n', 'grn', { buffer = 0 })
+		-- pcall(vim.keymap.del, 'n', 'gri', { buffer = 0 })
+		-- pcall(vim.keymap.del, 'n', 'grt', { buffer = 0 })
+		shared.on_attach(client, bufnr)
+
+	end 
 }
 
 jdtls.start_or_attach(config)
--- Set up keymaps AFTER starting JDTLS
--- Clear conflicting default keymaps
-pcall(vim.keymap.del, 'n', 'grr', { buffer = 0 })
-pcall(vim.keymap.del, 'n', 'gra', { buffer = 0 })
-pcall(vim.keymap.del, 'n', 'grn', { buffer = 0 })
-pcall(vim.keymap.del, 'n', 'gri', { buffer = 0 })
-pcall(vim.keymap.del, 'n', 'grt', { buffer = 0 })
-
--- Set up custom keymaps
-local opts = { buffer = 0, silent = true }
-
- vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, vim.tbl_extend('force', opts, { desc = 'LSP: Format' }))
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'LSP: [R]e[n]ame' }))
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action,
-	vim.tbl_extend('force', opts, { desc = 'LSP: [C]ode [A]ction' }))
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'LSP: [G]oto [D]efinition' }))
-vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references,
-	vim.tbl_extend('force', opts, { desc = 'LSP: [G]oto [R]eferences' }))
-vim.keymap.set('n', 'gI', vim.lsp.buf.implementation,
-	vim.tbl_extend('force', opts, { desc = 'LSP: [G]oto [I]mplementation' }))
-vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition,
-	vim.tbl_extend('force', opts, { desc = 'LSP: Type [D]efinition' }))
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP: Hover Documentation' }))

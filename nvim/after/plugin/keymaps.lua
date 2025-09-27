@@ -38,9 +38,9 @@ set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnos
 set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 
-set('n', "<leader><leader>x",  "<cmd> source %<CR>", { desc = 'source current file' })
+set('n', "<leader><leader>x", "<cmd> source %<CR>", { desc = 'source current file' })
 
--- windows 
+-- windows
 
 set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
 set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
@@ -53,5 +53,14 @@ set("n", "<C-\\>", "<cmd> TmuxNavigatePrevious<CR>")
 -- set("n", "<M-,>", "<c-w>5<")
 -- set("n", "<M-.>", "<c-w>5>")
 
-set('v', '<leader>gb', ":'<,'>GBrowse<CR>", { noremap = true, silent = true, desc = '[g]ithub [b]brows'  })
+set('v', '<leader>gb', ":'<,'>GBrowse<CR>", { noremap = true, silent = true, desc = '[g]ithub [b]brows' })
 
+
+-- litree
+vim.keymap.set("n", "<leader>ci", function()
+	vim.lsp.buf.incoming_calls()
+end, { desc = "Call Tree: Show Callers" })
+
+vim.keymap.set("n", "<leader>co", function()
+	vim.lsp.buf.outgoing_calls()
+end, { desc = "Call Tree: Show Callees" })
