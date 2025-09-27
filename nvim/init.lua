@@ -5,6 +5,18 @@ _G.is_windows_native = _G.is_windows and not _G.is_wsl
 
 print("is_windows:", is_windows)
 print("is_wsl:", is_wsl)
+print(vim.fn.systemlist("rg --version")[1])
+print(vim.fn.systemlist("fzf --version")[1])
+print(vim.fn.systemlist("git --version")[1])
+
+local home = vim.env.HOME
+local config_lua = home .. "/.dotfiles/nvim/lua/?.lua;" .. home .. "/.dotfiles/nvim/lua/?/init.lua;"
+
+if not string.find(package.path, config_lua, 1, true) then
+  package.path = config_lua .. package.path
+end
+
+
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -40,6 +52,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
+
+
+--
 
 
 
