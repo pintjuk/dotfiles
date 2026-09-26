@@ -3,12 +3,6 @@ _G.is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 _G.is_wsl = vim.fn.has("wsl") == 1
 _G.is_windows_native = _G.is_windows and not _G.is_wsl
 
-print("is_windows:", is_windows)
-print("is_wsl:", is_wsl)
-print(vim.fn.systemlist("rg --version")[1])
-print(vim.fn.systemlist("fzf --version")[1])
-print(vim.fn.systemlist("git --version")[1])
-
 local home = vim.env.HOME
 local config_lua = home .. "/.dotfiles/nvim/lua/?.lua;" .. home .. "/.dotfiles/nvim/lua/?/init.lua;"
 

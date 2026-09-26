@@ -1,0 +1,6 @@
+#!/bin/bash
+if defaults read -g AppleInterfaceStyle 2>/dev/null | grep -q Dark; then
+  exec delta --dark "$@"
+else
+  exec delta --light "$@"
+fi

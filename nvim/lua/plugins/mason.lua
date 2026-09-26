@@ -1,7 +1,14 @@
 return {
-	'williamboman/mason.nvim',
-	'williamboman/mason-lspconfig.nvim',
-	config = function()
+	{
+		'williamboman/mason.nvim',
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+		'williamboman/mason-lspconfig.nvim',
+		dependencies = { 'williamboman/mason.nvim' },
+		config = function()
 		local servers = {
 			gopls = {},
 			html = { filetypes = { 'html', 'twig', 'hbs' } },
@@ -17,9 +24,18 @@ return {
 			jsonls = {},
 		}
 
-		require("mason").setup()
-		require("mason-lspconfig").setup({
-			ensure_installed = vim.tbl_keys(servers),
-		})
-	end,
+			require("mason-lspconfig").setup({
+				ensure_installed = vim.tbl_keys(servers),
+			})
+		end,
+	},
+	{
+		'jay-babu/mason-nvim-dap.nvim',
+		dependencies = { 'williamboman/mason.nvim' },
+		config = function()
+			require("mason-nvim-dap").setup({
+				ensure_installed = { "java-debug-adapter" }
+			})
+		end,
+	},
 }
