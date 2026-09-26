@@ -34,3 +34,11 @@ command = "herdr-nvim-nav.up"
 key = "ctrl+l"
 type = "plugin_action"
 command = "herdr-nvim-nav.right"
+
+# fzf project picker: focus or create the workspace for a project dir (bin/herdr-sessionizer).
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "$HOME/.local/bin/herdr-sessionizer"
+width = "60%"
+height = "60%"

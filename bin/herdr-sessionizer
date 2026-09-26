@@ -1,0 +1,62 @@
+#!/usr/bin/env zsh
+# fzf project picker for Herdr: focus the workspace for a project dir, creating it if needed.
+# Herdr counterpart of tmux-sessionizer. Usage: herdr-sessionizer [DIR]
+set -uo pipefail
+
+export FZF_DEFAULT_OPTS=${FZF_DEFAULT_OPTS:-}' --color=fg:#656d76,bg:#ffffff,hl:#ffffff --color=fg+:#1F2328,bg+:#deeeff,hl+:#953800 --color=info:#9a6700,prompt:#0969da,pointer:#8250df --color=marker:#1a7f37,spinner:#24292f,header:#eff1f3'
+
+herdr_bin=${HERDR_BIN_PATH:-herdr}
+script_dir=${0:A:h}
+
+if [[ $# -ge 1 ]]; then
+    selected=$1
+else
+    selected=$("$script_dir/project-dirs" | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected=${selected/#\~\//$HOME/}
+selected=${selected:A}
+if [[ ! -d $selected ]]; then
+    echo "herdr-sessionizer: not a directory: $selected" >&2
+    exit 1
+fi
+name=$(basename "$selected" | tr . _)
+
+# Per-project startup hook, same shape as init_session in tmux-sessionizer.
+init_workspace() {
+    local ws_name=$1 root_pane=$2
+    case "$ws_name" in
+        Notes)
+            "$herdr_bin" pane run "$root_pane" "nvim ." >/dev/null
+            ;;
+        *)
+            ;;
+    esac
+}
+
+# 1. workspace whose label is the project name
+ws=$("$herdr_bin" workspace list \
+    | jq -r --arg n "$name" '.result.workspaces[] | select(.label == $n) | .workspace_id' \
+    | head -1)
+
+# 2. else any workspace with a pane currently in that directory
+if [[ -z $ws ]]; then
+    ws=$("$herdr_bin" pane list \
+        | jq -r --arg d "$selected" '.result.panes[] | select(.cwd == $d) | .workspace_id' \
+        | head -1)
+fi
+
+if [[ -n $ws ]]; then
+    "$herdr_bin" workspace focus "$ws" >/dev/null
+    exit 0
+fi
+
+out=$("$herdr_bin" workspace create --cwd "$selected" --label "$name" --focus) || exit 1
+root_pane=$(jq -r '.result.root_pane.pane_id // .result.root_pane // empty' <<<"$out")
+if [[ -n $root_pane ]]; then
+    init_workspace "$name" "$root_pane"
+fi
