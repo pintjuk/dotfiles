@@ -1,0 +1,36 @@
+onboarding = false
+
+[ui.toast]
+delivery = "herdr"
+
+[theme]
+name = "one-light"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+
+[ui]
+status_indicators = "symbols"
+
+# Seamless ctrl+h/j/k/l between nvim splits and herdr panes (aimdevlee/herdr-nvim-nav).
+# Forwards the chord to nvim when it owns the focused pane, otherwise moves pane focus.
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-nvim-nav.left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-nvim-nav.down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-nvim-nav.up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-nvim-nav.right"
