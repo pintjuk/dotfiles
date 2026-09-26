@@ -42,11 +42,15 @@ set('n', "<leader><leader>x", "<cmd> source %<CR>", { desc = 'source current fil
 
 -- windows
 
-set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
-set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
-set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
-set("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
-set("n", "<C-\\>", "<cmd> TmuxNavigatePrevious<CR>")
+-- Inside herdr these chords belong to herdr-nvim-nav (see lua/plugins/vim-tmux-navigator.lua);
+-- after/plugin runs last, so an unconditional mapping here would override it.
+if vim.env.HERDR_ENV ~= "1" then
+  set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
+  set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
+  set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
+  set("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
+  set("n", "<C-\\>", "<cmd> TmuxNavigatePrevious<CR>")
+end
 
 -- set("n", "<M-,>", "<C-w>5<")
 -- set("n", "<M-.>", "<C-w>5>")
