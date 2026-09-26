@@ -126,7 +126,10 @@ local config = {
 	},
 
 	init_options = {
-		bundles = {},
+		bundles = {
+			vim.fn.expand("/Users/daniil/.local/share/nvim/eclipse-debug/org.eclipse.jdt.debug.jar"),
+		},
+
 		extendedClientCapabilities = {
 			progressReportsSupport = true,
 			classFileContentsSupport = true,
@@ -155,3 +158,33 @@ local config = {
 }
 
 jdtls.start_or_attach(config)
+
+
+-- configure dap
+local dap = require('dap')
+require('dap').set_log_level('DEBUG')
+
+dap.configurations.java = {{
+	type = 'java',
+	request = 'attach',
+	name = 'Attach to Rasputin',
+	hostName = 'localhost',
+	port = 5005,
+}}
+dap.adapters.java = function(callback, config)
+	jdtls.start_debug_session(config, callback)
+end
+
+
+  --- 3. Key mappings:
+vim.keymap.set('n', '<F5>', dap.continue)
+vim.keymap.set('n', '<F10>', dap.step_over)
+vim.keymap.set('n', '<F11>', dap.step_into)
+vim.keymap.set('n', '<F12>', dap.step_out)
+vim.keymap.set('n', '<leader>bb', dap.toggle_breakpoint)
+
+local dap, dapui = require('dap'), require('dapui')
+dapui.setup()
+
+
+
