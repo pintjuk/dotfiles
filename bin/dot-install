@@ -18,6 +18,14 @@ fi
 
 stow -d ~/.dotfiles/ -t ~/.local/bin -R bin
 stow -d ~/.dotfiles/ -t ~/.config/nvim -R nvim
+mkdir -p ~/.config/herdr
+stow -d ~/.dotfiles/ -t ~/.config/herdr -R herdr
 _stow -d ~/.dotfiles/ -t ~ -R tmux
 _stow -d ~/.dotfiles/ -t ~ -R zsh
 _stow -d ~/.dotfiles/ -t ~ -R git
+
+# herdr keeps plugins outside dotfiles; install the reviewed nvim-navigation plugin
+# that herdr/config.toml binds ctrl+h/j/k/l to (pinned to the reviewed commit).
+if command -v herdr >/dev/null 2>&1; then
+	herdr plugin install aimdevlee/herdr-nvim-nav --ref ec047fd6d8d0269d54a34e9405af28d8aad4c8f0 --yes
+fi
